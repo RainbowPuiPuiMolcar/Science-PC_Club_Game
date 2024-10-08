@@ -104,7 +104,7 @@ int main()
 // X 405 Y 305
 
     Music mainBGM = LoadMusicStream("music/sampleBGM.mp3");
-    // Sound damage = LoadSound("music/damage.mp3");
+    Sound damage = LoadSound("music/damage.mp3");
     Music deathBGM = LoadMusicStream("music/death.mp3");
     Sound shieldBGM = LoadSound("music/shield.wav");
     float mainVolume = 1.0f;
@@ -112,7 +112,8 @@ int main()
 
     SetMusicVolume(mainBGM, mainVolume);
     SetMusicVolume(deathBGM, mainVolume);
-    SetSoundVolume(shieldBGM, damageVolume);
+    SetSoundVolume(shieldBGM, damageVolume + 5);
+    SetSoundVolume(damage, damageVolume);
 
     // 音楽の再生を開始
     PlayMusicStream(mainBGM);
@@ -308,21 +309,25 @@ int main()
                         {
                             if (CheckCollisionRecs(playerRect, turnOneAttackRect))
                             {
+                                PlaySound(damage);
                                 playerHP -= nomalAttackDamage;
                                 damageCooldown = invincibilityTime;  // クールダウンをリセット
                             }
                             if (CheckCollisionRecs(playerRect, turnOneAttackRectTwo))
                             {
+                                PlaySound(damage);
                                 playerHP -= nomalAttackDamage;
                                 damageCooldown = invincibilityTime;  // クールダウンをリセット
                             }
                             if (CheckCollisionRecs(playerRect, turnOneAttackRectThree))
                             {
+                                PlaySound(damage);
                                 playerHP -= nomalAttackDamage;
                                 damageCooldown = invincibilityTime;  // クールダウンをリセット
                             }
                             if (CheckCollisionRecs(playerRect, turnOneAttackRectFour))
                             {
+                                PlaySound(damage);
                                 playerHP -= nomalAttackDamage;
                                 damageCooldown = invincibilityTime;  // クールダウンをリセット
                             }
@@ -334,21 +339,25 @@ int main()
                         {
                             if (CheckCollisionRecs(playerRect, turnOneAttackRect))
                             {
+                                PlaySound(damage);
                                 playerHP -= nomalAttackDamage;
                                 damageCooldown = invincibilityTime;  // クールダウンをリセット
                             }
                             if (CheckCollisionRecs(playerRect, turnOneAttackRectTwo))
                             {
+                                PlaySound(damage);
                                 playerHP -= nomalAttackDamage;
                                 damageCooldown = invincibilityTime;  // クールダウンをリセット
                             }
                             if (CheckCollisionRecs(playerRect, turnOneAttackRectThree))
                             {
+                                PlaySound(damage);
                                 playerHP -= nomalAttackDamage;
                                 damageCooldown = invincibilityTime;  // クールダウンをリセット
                             }
                             if (CheckCollisionRecs(playerRect, turnOneAttackRectFour))
                             {
+                                PlaySound(damage);
                                 playerHP -= nomalAttackDamage;
                                 damageCooldown = invincibilityTime;  // クールダウンをリセット
                             }
@@ -361,21 +370,25 @@ int main()
                     {
                         if (CheckCollisionRecs(playerRect, turnOneAttackRect))
                         {
+                            PlaySound(damage);
                             playerHP -= nomalAttackDamage;
                             damageCooldown = invincibilityTime;  // クールダウンをリセット
                         }
                         if (CheckCollisionRecs(playerRect, turnOneAttackRectTwo))
                         {
+                            PlaySound(damage);
                             playerHP -= nomalAttackDamage;
                             damageCooldown = invincibilityTime;  // クールダウンをリセット
                         }
                         if (CheckCollisionRecs(playerRect, turnOneAttackRectThree))
                         {
+                            PlaySound(damage);
                             playerHP -= nomalAttackDamage;
                             damageCooldown = invincibilityTime;  // クールダウンをリセット
                         }
                         if (CheckCollisionRecs(playerRect, turnOneAttackRectFour))
                         {
+                            PlaySound(damage);
                             playerHP -= nomalAttackDamage;
                             damageCooldown = invincibilityTime;  // クールダウンをリセット
                         }
@@ -388,21 +401,25 @@ int main()
                 {
                     if (CheckCollisionRecs(playerRect, turnOneAttackRect))
                     {
+                        PlaySound(damage);
                         playerHP -= nomalAttackDamage;
                         damageCooldown = invincibilityTime;  // クールダウンをリセット
                     }
                     if (CheckCollisionRecs(playerRect, turnOneAttackRectTwo))
                     {
+                        PlaySound(damage);
                         playerHP -= nomalAttackDamage;
                         damageCooldown = invincibilityTime;  // クールダウンをリセット
                     }
                     if (CheckCollisionRecs(playerRect, turnOneAttackRectThree))
                     {
+                        PlaySound(damage);
                         playerHP -= nomalAttackDamage;
                         damageCooldown = invincibilityTime;  // クールダウンをリセット
                     }
                     if (CheckCollisionRecs(playerRect, turnOneAttackRectFour))
                     {
+                        PlaySound(damage);
                         playerHP -= nomalAttackDamage;
                         damageCooldown = invincibilityTime;  // クールダウンをリセット
                     }
