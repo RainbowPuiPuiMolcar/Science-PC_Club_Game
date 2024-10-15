@@ -3,7 +3,6 @@
 #include <fstream>
 #include <iostream>
 #include "raylib.h"
-#include "../../include/nlohmann/json.hpp"
 
 void reset(Rectangle a, Rectangle b)
 {
@@ -98,8 +97,8 @@ int main()
     double playerHPMax = 100.0;
     double playerHPDefault = 20.0;
     double playerHP = playerHPDefault;
-    double playerPositionX = 405.0;
-    double playerPositionY = 305.0;
+    // double playerPositionX = 50.0;
+    // double playerPositionY = 305.0;
     double playerLevel = 1;
 // X 405 Y 305
 
@@ -149,7 +148,7 @@ int main()
     UnloadImage(playerTextureTexture);
     UnloadImage(playerTextureGreenTexture);
 
-    Rectangle playerRect = { static_cast<float>(playerPositionX), static_cast<float>(playerPositionY), 30, 30 };
+    Rectangle playerRect = { 50, 305, 30, 30 };
 
     Rectangle turnOneAttackRect = { 205, 305, 20, 20 };
 
@@ -216,32 +215,23 @@ int main()
             // プレイヤーの位置を更新
             if (turn == 0.5)
             {
-                if (IsKeyDown(KEY_UP)) playerPositionY -= playerMoveSpeed;
-                if (IsKeyDown(KEY_DOWN)) playerPositionY += playerMoveSpeed;
-                if (IsKeyDown(KEY_RIGHT)) playerPositionX += playerMoveSpeed;
-                if (IsKeyDown(KEY_LEFT)) playerPositionX -= playerMoveSpeed;
-                if (IsKeyDown(KEY_X)) playerMoveSpeed = 1;
-                else if (IsKeyUp(KEY_X)) playerMoveSpeed = 5;
-            }
-            else if (turn == 1)
-            {
                 // playerPositionX = 50;
                 // playerPositionX = 290;
                 // playerPositionX = 510;
                 // playerPositionX = 715;
-                playerPositionY = 545;
-                if (playerPositionX == 50)
+                playerRect.y = 545;
+                if (playerRect.x == 50)
                 {
-                    if (IsKeyPressed(KEY_RIGHT)) playerPositionX = 290;
+                    if (IsKeyPressed(KEY_RIGHT)) playerRect.x = 290;
                     if (IsKeyPressed(KEY_Z))
                     {
                         attack = true;
                     }
                 }
-                else if (playerPositionX == 290)
+                else if (playerRect.x == 290)
                 {
-                    if (IsKeyPressed(KEY_LEFT)) playerPositionX = 50;
-                    if (IsKeyPressed(KEY_RIGHT)) playerPositionX = 510;
+                    if (IsKeyPressed(KEY_LEFT)) playerRect.x = 50;
+                    if (IsKeyPressed(KEY_RIGHT)) playerRect.x = 510;
                     if (IsKeyPressed(KEY_Z))
                     {
                         if (playerMP > 100)
@@ -256,18 +246,26 @@ int main()
                                 playerHP += 20;
                             }
                         }
-
                     }
                 }
-                else if (playerPositionX == 510)
+                else if (playerRect.x == 510)
                 { 
-                    if (IsKeyPressed(KEY_LEFT)) playerPositionX = 290;
-                    if (IsKeyPressed(KEY_RIGHT)) playerPositionX = 715;
+                    if (IsKeyPressed(KEY_LEFT)) playerRect.x = 290;
+                    if (IsKeyPressed(KEY_RIGHT)) playerRect.x = 715;
                 }
-                else if (playerPositionX == 715)
+                else if (playerRect.x == 715)
                 {
-                    if (IsKeyPressed(KEY_LEFT)) playerPositionX = 510;
+                    if (IsKeyPressed(KEY_LEFT)) playerRect.x = 510;
                 }
+            }
+            else if (turn == 1)
+            {
+                if (IsKeyDown(KEY_UP)) playerRect.y -= playerMoveSpeed;
+                if (IsKeyDown(KEY_DOWN)) playerRect.y += playerMoveSpeed;
+                if (IsKeyDown(KEY_RIGHT)) playerRect.x += playerMoveSpeed;
+                if (IsKeyDown(KEY_LEFT)) playerRect.x -= playerMoveSpeed;
+                if (IsKeyDown(KEY_X)) playerMoveSpeed = 1;
+                else if (IsKeyUp(KEY_X)) playerMoveSpeed = 5;
             }
 
             // UpdateMusicStream(damageBGM);
@@ -449,18 +447,18 @@ int main()
             }
 
             if (turn == 0.5)
+            {}
+            else if (turn == 1)
             {
                 // プレイヤーが枠の外に出ないように制限
-                if (playerPositionX < outerFrameX) playerPositionX = outerFrameX;
-                if (playerPositionX + playerRect.width > outerFrameX + outerFrameWidth)
-                    playerPositionX = outerFrameX + outerFrameHeight - playerRect.width;
+                if (playerRect.x < outerFrameX) playerRect.x = outerFrameX;
+                if (playerRect.x + playerRect.width > outerFrameX + outerFrameWidth)
+                    playerRect.x = outerFrameX + outerFrameHeight - playerRect.width;
 
-                if (playerPositionY < outerFrameY) playerPositionY = outerFrameY;
-                if (playerPositionY + playerRect.height > outerFrameY + outerFrameWidth)
-                    playerPositionY = outerFrameY + outerFrameHeight - playerRect.height;
+                if (playerRect.y < outerFrameY) playerRect.y = outerFrameY;
+                if (playerRect.y + playerRect.height > outerFrameY + outerFrameWidth)
+                    playerRect.y = outerFrameY + outerFrameHeight - playerRect.height;
             }
-            else
-            {}
 
             BeginDrawing();
             ClearBackground(BLACK);
@@ -485,26 +483,13 @@ int main()
             }
             // 外側の矩形 (枠線)
             DrawRectangle(outerFrameX, outerFrameY, outerFrameWidth, outerFrameHeight, WHITE);
-            if (flameColor == 1)
-            {
-                // 内側の矩形 (背景色)
-                DrawRectangle(innerFrameX, innerFrameY, innerFrameWidth, innerFrameHeight, Black);
-            }
-            else if (flameColor == 2)
-            {
-                // 内側の矩形 (背景色)
-                DrawRectangle(innerFrameX, innerFrameY, innerFrameWidth, innerFrameHeight, Purple);
-            }
-            else if (flameColor == 3)
-            {
-                // 内側の矩形 (背景色)
-                DrawRectangle(innerFrameX, innerFrameY, innerFrameWidth, innerFrameHeight, darkRed);
-            }
+            // 内側の矩形 (背景色)
+            DrawRectangle(innerFrameX, innerFrameY, innerFrameWidth, innerFrameHeight, Black);
             if (attack)
             {
-                playerPositionX = 70;
-                playerPositionY = 240;
-                if (playerPositionX == 70, playerPositionY == 240)
+                playerRect.x = 70;
+                playerRect.y = 240;
+                if (playerRect.x == 70, playerRect.y == 240)
                 {
                     if (IsKeyPressed(KEY_Z))
                     {
@@ -542,25 +527,25 @@ int main()
             DrawRectangle(705, 525, 170, 57, BLACK);
             DrawText("RUN", 750, 540, 36, WHITE);
 
-            if (playerPositionX == 50 && playerPositionY == 545)
+            if (playerRect.x == 50 && playerRect.y == 545)
             {
                 DrawRectangle(30, 520, 180, 65, darkRed);
                 DrawRectangle(35, 525, 170, 57, BLACK);
                 DrawText("Attack", 80, 540, 36, darkRed);
             }
-            else if (playerPositionX == 290 && playerPositionY == 545)
+            else if (playerRect.x == 290 && playerRect.y == 545)
             {
                 DrawRectangle(270, 520, 180, 65, darkRed);
                 DrawRectangle(275, 525, 170, 57, BLACK);
                 DrawText("MP", 320, 540, 36, darkRed);
             }
-            else if (playerPositionX == 510 && playerPositionY == 545)
+            else if (playerRect.x == 510 && playerRect.y == 545)
             {
                 DrawRectangle(490, 520, 180, 65, darkRed);
                 DrawRectangle(495, 525, 170, 57, BLACK);
                 DrawText("ITEM", 540, 540, 36, darkRed);
             }
-            else if (playerPositionX == 715 && playerPositionY == 545)
+            else if (playerRect.x == 715 && playerRect.y == 545)
             {
                 DrawRectangle(700, 520, 180, 65, darkRed);
                 DrawRectangle(705, 525, 170, 57, BLACK);
@@ -600,7 +585,11 @@ int main()
 
             if (turn == 0.5)
             {
+            }
+            else if (turn == 1)
+            {
                 int fuckTime = GetTime(); // 現在の時刻を取得
+                std::cout << fuckTime << std::endl;
                 // 2秒経過したかをチェック
                 if (currentTime - startTime >= 0.3)
                 {
@@ -611,16 +600,15 @@ int main()
                 }
                 if (fuckTime == 3) 
                 {
-                    playerPositionX = 50;
+                    playerRect.x = 50;
                     turn += 0.5;
                 }
             }
-            else if (turn == 1)
-            {
-                turnOneAttackRect.x += 8;
-            }
 
             if (turn == 0.5)
+            {
+            }
+            else if (true == 1)
             {
                 DrawTexture(attackTexture, turnOneAttackRect.x, turnOneAttackRect.y, WHITE);
                 DrawTexture(attackTexture, turnOneAttackRectTwo.x, turnOneAttackRectTwo.y, WHITE);
@@ -629,12 +617,9 @@ int main()
             }
 
             if (attack) DrawRectangle(innerFrameX, innerFrameY, innerFrameWidth, innerFrameHeight, Black);
-            DrawTexture(playerTexture, playerPositionX, playerPositionY, WHITE);
+            DrawTexture(playerTexture, playerRect.x, playerRect.y, WHITE);
             
             // std::cout << attack << "    " << turn << std::endl;
-            // プレイヤーと攻撃の矩形を更新
-            playerRect.x = playerPositionX;
-            playerRect.y = playerPositionY;
 
             if (healthOF)
             {
